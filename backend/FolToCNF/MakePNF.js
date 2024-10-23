@@ -1,3 +1,4 @@
+module.exports = {moveUniversalQuantifiersToFront};
 // Function to move all 'every' quantifiers to the front
 function moveUniversalQuantifiersToFront(formula) {
     const universals = []; // To store the 'every' quantifiers

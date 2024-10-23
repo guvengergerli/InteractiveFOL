@@ -1,3 +1,4 @@
+module.exports = { parseFOL, quantifyFreeVariables};
 // Tokenizer: Convert input string into meaningful tokens
 function tokenize(input) {
     return input.match(/[a-zA-Z0-9_]+|[(),]/g);

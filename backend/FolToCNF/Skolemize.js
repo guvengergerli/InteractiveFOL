@@ -1,3 +1,4 @@
+module.exports = {skolemize};
 // Function to perform Skolemization
 function skolemize(formula, universals = []) {
     if (formula.type === 'existential') {

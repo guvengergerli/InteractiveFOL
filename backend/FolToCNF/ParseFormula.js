@@ -1,3 +1,5 @@
+module.exports = {formulaToString};
+
 // Function to convert a parsed formula back to a string
 function formulaToString(formula) {
     switch (formula.type) {

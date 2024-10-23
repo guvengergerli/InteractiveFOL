@@ -1,3 +1,4 @@
+module.exports = {dropUniversalQuantifiers};
 // Function to drop all universal quantifiers ('every') and return the internal formula
 function dropUniversalQuantifiers(formula) {
     if (formula.type === 'universal') {

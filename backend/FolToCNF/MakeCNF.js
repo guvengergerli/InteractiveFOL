@@ -1,3 +1,5 @@
+module.exports = {toCNF};
+
 // Function to convert a formula to Conjunctive Normal Form (CNF)
 function toCNF(formula) {
     // Step 1: Eliminate implications
