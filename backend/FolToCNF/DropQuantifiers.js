@@ -67,7 +67,7 @@ function termToString(term) {
     }
 }
 
-// Example usage: formula object with universal quantifiers
+// Example_SWIProlog usage: formula object with universal quantifiers
 const formulaWithUniversals = {
     type: 'universal',
     variable: 'X',

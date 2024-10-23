@@ -122,7 +122,7 @@ function termToString(term) {
     }
 }
 
-// Example usage: formula object with an existential quantifier
+// Example_SWIProlog usage: formula object with an existential quantifier
 const formulaWithExist = {
     type: 'universal',
     variable: 'X',

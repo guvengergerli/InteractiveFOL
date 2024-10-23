@@ -64,7 +64,7 @@ function termToString(term) {
     }
 }
 
-// Example usage with a quantified formula
+// Example_SWIProlog usage with a quantified formula
 const quantifiedFormula =
 {
     "type": "universal",

@@ -182,7 +182,7 @@ function quantifyFreeVariables(formula) {
     return formula;
 }
 
-// Example usage with a formula containing free variables
+// Example_SWIProlog usage with a formula containing free variables
 const formula1 = "implies(P(X), or(Q(Y), every(X, Z(W, Y))))";
 const parsedFormula = parseFOL(formula1);
 const quantifiedFormula = quantifyFreeVariables(parsedFormula);

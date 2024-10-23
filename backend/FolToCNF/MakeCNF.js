@@ -150,7 +150,7 @@ function termToString(term) {
     }
 }
 
-// Example usage: input formula without quantifiers
+// Example_SWIProlog usage: input formula without quantifiers
 const formulaWithoutQuantifiers = {
     type: 'implication',
     left: {

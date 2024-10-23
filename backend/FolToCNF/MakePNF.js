@@ -96,7 +96,7 @@ function termToString(term) {
     }
 }
 
-// Example usage: formula object representing the string
+// Example_SWIProlog usage: formula object representing the string
 const formula = {
     type: 'universal',
     variable: 'W',
