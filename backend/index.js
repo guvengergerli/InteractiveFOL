@@ -53,3 +53,4 @@ function formatPrologTerm(term) {
     // Handle constants (numbers, atoms, etc.)
     return term.toString();
 }
+
