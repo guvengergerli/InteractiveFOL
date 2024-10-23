@@ -63,49 +63,54 @@ function termToString(term) {
 }
 
 // Example usage with a quantified formula
-const quantifiedFormula = {
+const quantifiedFormula =
+{
     "type": "universal",
-    "variable": "Y",
+    "variable": "W",
     "formula": {
-        "type": "universal",
-        "variable": "X",
+    "type": "universal",
+        "variable": "Y",
         "formula": {
-            "type": "implication",
+        "type": "implication",
             "left": {
-                "type": "predicate",
+            "type": "predicate",
                 "name": "P",
                 "arguments": [
+                {
+                    "type": "variable",
+                    "name": "X"
+                }
+            ]
+        },
+        "right": {
+            "type": "disjunction",
+                "left": {
+                "type": "predicate",
+                    "name": "Q",
+                    "arguments": [
                     {
                         "type": "variable",
-                        "name": "X"
+                        "name": "Y"
                     }
                 ]
             },
             "right": {
-                "type": "disjunction",
-                "left": {
+                "type": "universal",
+                    "variable": "X",
+                    "formula": {
                     "type": "predicate",
-                    "name": "Q",
-                    "arguments": [
+                        "name": "Z",
+                        "arguments": [
                         {
                             "type": "variable",
-                            "name": "Y"
-                        }
-                    ]
-                },
-                "right": {
-                    "type": "predicate",
-                    "name": "S",
-                    "arguments": [
-                        {
-                            "type": "constant",
-                            "value": "z"
+                            "name": "W"
                         }
                     ]
                 }
             }
         }
     }
+}
 };
 
 // Convert the quantified formula back to a string

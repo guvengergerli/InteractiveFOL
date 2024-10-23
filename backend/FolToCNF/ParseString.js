@@ -183,9 +183,9 @@ function quantifyFreeVariables(formula) {
 }
 
 // Example usage with a formula containing free variables
-const formula1 = "implies(P(X), or(Q(Y), S(z)))";
+const formula1 = "implies(P(X), or(Q(Y), every(X, Z(W))))";
 const parsedFormula = parseFOL(formula1);
 const quantifiedFormula = quantifyFreeVariables(parsedFormula);
-
+console.log(JSON.stringify(parsedFormula, null, 2));
 // Output the parsed formula with quantified free variables
 console.log(JSON.stringify(quantifiedFormula, null, 2));

@@ -18,7 +18,7 @@ if (fs.existsSync(prologFilePath)) {
 
         // Call the tocnf predicate with numbervars to name unbound variables
         const result = swipl.call(`
-            tocnf(every(Z, implies(and(p(X), q(Y)), or(r(Z), not(s(X))))), FCNF), 
+            tocnf(every(Z, implies(and(p(X), q(Y)), or(r(Z), not(s(W))))), FCNF), 
             numbervars(FCNF, 0, _).
         `);
         if (result && result.FCNF) {
