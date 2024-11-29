@@ -5,63 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive FOL Resolution Explorer</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .clause {
+            cursor: pointer;
+            padding: 5px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .clause.selected {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Interactive FOL Resolution Explorer</h1>
-        
-        <!-- Formula input area -->
-        <div class="input-section">
-            <label for="formula">Put your Formula:</label>
-            <input type="text" id="formula" placeholder="Enter your formula here">
-            <button id="convert-btn">Transfer to CNF</button>
-        </div>
+<div class="container">
+    <h1>Interactive FOL Resolution Explorer</h1>
 
-        <!-- Steps for formula transformation -->
-        <div class="steps">
-            <h3>After the button is clicked, the following should be shown:</h3>
-            <ul>
-                <li>Step 1: Removing free variables: <span id="step1-result"></span></li>
-                <li>Step 2: Make PNF: <span id="step2-result"></span></li>
-                <li>Step 3: Skolemize: <span id="step3-result"></span></li>
-                <li>Step 4: Drop quantifiers: <span id="step4-result"></span></li>
-                <li>Step 5: Transfer to CNF: <span id="step5-result"></span></li>
-            </ul>
-        </div>
-
-        <!-- Clause interaction -->
-        <div class="clause-section">
-            <label>The clauses:</label>
-            <div id="clauses">
-                <!-- Clauses will appear here as clickable elements -->
-            </div>
-            <button id="resolution-btn">Start Resolution</button>
-            <div class="dropdown-section">
-                <select>
-                    <option>Select a strategy</option>
-                    <option>None</option>
-                    <option>Unit Resolution</option>
-                    <option>SOS Resolution</option>
-                    <option>Linear Resolution</option>
-                    <option>End</option>
-                </select>
-                <button class="dropdown-btn">Resolve</button>
-            </div>
-        </div>
-
-        <!-- New Clauses generated -->
-        <div class="new-clauses-section">
-            <label>New clauses:</label>
-            <div id="new-clauses">
-                <!-- New clauses will appear here -->
-            </div>
-        </div>
-
-        <p>The loops end until we get a contradiction</p>
+    <!-- Formula input area -->
+    <div class="input-section">
+        <label for="formula">Put your Formula:</label>
+        <input type="text" id="formula" placeholder="Enter your formula here">
+        <button id="convert-btn">Transfer to CNF</button>
     </div>
 
-    <script src="scripts.js"></script>
+    <!-- Steps for formula transformation -->
+    <div class="steps">
+        <h3>After the button is clicked, the following should be shown:</h3>
+        <ul>
+            <li>Step 0: Input Formula: <span id="step0-result"></span></li>
+            <li>Step 1: Removing free variables: <span id="step1-result"></span></li>
+            <li>Step 2: Make PNF: <span id="step2-result"></span></li>
+            <li>Step 3: Skolemize: <span id="step3-result"></span></li>
+            <li>Step 4: Drop quantifiers: <span id="step4-result"></span></li>
+            <li>Step 5: Transfer to CNF: <span id="step5-result"></span></li>
+        </ul>
+    </div>
+
+    <!-- Clause interaction -->
+    <div class="clause-section">
+        <label>The clauses:</label>
+        <div id="clauses">
+            <!-- Clauses will appear here as clickable elements -->
+        </div>
+        <button id="resolution-btn">Start Resolution</button>
+        <div class="dropdown-section">
+            <select>
+                <option>Select a strategy</option>
+                <option>None</option>
+                <option>Unit Resolution</option>
+                <option>SOS Resolution</option>
+                <option>Linear Resolution</option>
+                <option>End</option>
+            </select>
+            <button class="dropdown-btn">Resolve</button>
+        </div>
+    </div>
+
+    <!-- New Clauses generated -->
+    <div class="new-clauses-section">
+        <label>New clauses:</label>
+        <div id="new-clauses">
+            <!-- New clauses will appear here -->
+        </div>
+    </div>
+
+    <p>The loops end until we get a contradiction</p>
+</div>
+
+<script src="scripts.js"></script>
 
 </body>
 </html>

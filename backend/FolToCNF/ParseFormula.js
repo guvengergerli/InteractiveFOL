@@ -1,48 +1,39 @@
-module.exports = {formulaToString};
+// Exporting necessary functions
+module.exports = { formulaToString, extractClauses };
 
 // Function to convert a parsed formula back to a string
 function formulaToString(formula) {
     switch (formula.type) {
         case 'predicate':
-            // If the predicate has arguments, format it as: P(x, y, ...)
             if (formula.arguments.length > 0) {
                 const args = formula.arguments.map(arg => termToString(arg)).join(', ');
                 return `${formula.name}(${args})`;
             } else {
-                // If no arguments, just return the predicate name: P
                 return formula.name;
             }
 
         case 'constant':
-            // Return the constant as is
             return formula.value;
 
         case 'variable':
-            // Return the variable as is
             return formula.name;
 
         case 'negation':
-            // Return negation formatted as: not(formula)
             return `not(${formulaToString(formula.formula)})`;
 
         case 'conjunction':
-            // Return conjunction formatted as: and(formula1, formula2)
             return `and(${formulaToString(formula.left)}, ${formulaToString(formula.right)})`;
 
         case 'disjunction':
-            // Return disjunction formatted as: or(formula1, formula2)
             return `or(${formulaToString(formula.left)}, ${formulaToString(formula.right)})`;
 
         case 'implication':
-            // Return implication formatted as: implies(formula1, formula2)
             return `implies(${formulaToString(formula.left)}, ${formulaToString(formula.right)})`;
 
         case 'universal':
-            // Return universal quantification formatted as: every(variable, formula)
             return `every(${formula.variable}, ${formulaToString(formula.formula)})`;
 
         case 'existential':
-            // Return existential quantification formatted as: exist(variable, formula)
             return `exist(${formula.variable}, ${formulaToString(formula.formula)})`;
 
         default:
@@ -64,57 +55,88 @@ function termToString(term) {
     }
 }
 
-// Example_SWIProlog usage with a quantified formula
-const quantifiedFormula =
-{
-    "type": "universal",
-    "variable": "W",
-    "formula": {
-    "type": "universal",
-        "variable": "Y",
-        "formula": {
-        "type": "implication",
-            "left": {
-            "type": "predicate",
-                "name": "P",
-                "arguments": [
-                {
-                    "type": "variable",
-                    "name": "X"
-                }
-            ]
-        },
-        "right": {
-            "type": "disjunction",
-                "left": {
-                "type": "predicate",
-                    "name": "Q",
-                    "arguments": [
-                    {
-                        "type": "variable",
-                        "name": "Y"
-                    }
-                ]
-            },
-            "right": {
-                "type": "universal",
-                    "variable": "X",
-                    "formula": {
-                    "type": "predicate",
-                        "name": "Z",
-                        "arguments": [
-                        {
-                            "type": "variable",
-                            "name": "W"
-                        }
-                    ]
-                }
-            }
-        }
+// Function to extract individual clauses from a CNF formula
+function extractClauses(cnfFormula) {
+    // Check if the formula is a conjunction (AND operator)
+    if (cnfFormula.type === 'conjunction') {
+        return [
+            ...extractClauses(cnfFormula.left), // Recursively extract from the left
+            ...extractClauses(cnfFormula.right), // Recursively extract from the right
+        ];
     }
+
+    // Otherwise, it's a single clause
+    return [formulaToString(cnfFormula)];
 }
+
+// Example usage: A quantified formula represented as an object
+const quantifiedFormula = {
+    type: 'universal',
+    variable: 'W',
+    formula: {
+        type: 'universal',
+        variable: 'Y',
+        formula: {
+            type: 'implication',
+            left: {
+                type: 'predicate',
+                name: 'P',
+                arguments: [
+                    {
+                        type: 'variable',
+                        name: 'X',
+                    },
+                ],
+            },
+            right: {
+                type: 'disjunction',
+                left: {
+                    type: 'predicate',
+                    name: 'Q',
+                    arguments: [
+                        {
+                            type: 'variable',
+                            name: 'Y',
+                        },
+                    ],
+                },
+                right: {
+                    type: 'universal',
+                    variable: 'X',
+                    formula: {
+                        type: 'predicate',
+                        name: 'Z',
+                        arguments: [
+                            {
+                                type: 'variable',
+                                name: 'W',
+                            },
+                        ],
+                    },
+                },
+            },
+        },
+    },
 };
 
 // Convert the quantified formula back to a string
 const formulaString = formulaToString(quantifiedFormula);
-console.log(formulaString);
+console.log('Formula String:', formulaString);
+
+// Test extractClauses
+const cnfFormula = {
+    type: 'conjunction',
+    left: {
+        type: 'disjunction',
+        left: { type: 'predicate', name: 'P', arguments: [{ type: 'variable', name: 'X' }] },
+        right: { type: 'predicate', name: 'Q', arguments: [{ type: 'variable', name: 'Y' }] },
+    },
+    right: {
+        type: 'disjunction',
+        left: { type: 'negation', formula: { type: 'predicate', name: 'R', arguments: [{ type: 'variable', name: 'Z' }] } },
+        right: { type: 'predicate', name: 'S', arguments: [{ type: 'variable', name: 'W' }] },
+    },
+};
+
+const clauses = extractClauses(cnfFormula);
+console.log('Extracted Clauses:', clauses);
