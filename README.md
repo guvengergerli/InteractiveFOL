@@ -38,7 +38,7 @@ The project emphasizes interactive visualization, making it a valuable education
 ---
 
 ## **3. Input the Formula**
-1. In the input box labeled **"Put your Formula"**, type the following formulas:
+1. In the input box labeled **"Put your Formula"**, type the following formulas: 
     ```
     implies(every(X, and(P(X), exist(Y, Q(X, Y)))), or(not(R(Z)), and(exist(W, S(W, a)), implies(T(U), and(V(U, X), W(a))))))
     ```
@@ -46,7 +46,7 @@ The project emphasizes interactive visualization, making it a valuable education
     ```
    and(implies(P(X), Q(X)), and(implies(Q(X), R(X)), and(not(P(X)), not(R(X)))))
     ```
-   
+**Feel free to define your own formulas. The accepted formula form is defined in /backend/FolToCNF/README.md**
 2. Click the **"Transfer to CNF"** button.
 
 ---
