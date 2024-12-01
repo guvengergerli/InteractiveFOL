@@ -39,6 +39,12 @@ function queryProlog(query) {
 function resolveCNF(cnf) {
     const processed = processCNF(cnf);
     if (processed.flatSatClauses.length > 0) {
+        console.log(processed.flatSatClauses);
+        for (const clause of processed.flatSatClauses) {
+            for(const predicate of clause.predicates){
+              console.log(predicate);
+            }
+        }
         throw new Error('This is not implemented yet.');
     }
     resetPrologContext();
@@ -89,7 +95,7 @@ function queryResolution(resolution, query) {
     }
     return false; // No way to interpret ors left and we did not find a solution
 }
-const cnf = new CnfFormula(new Clause([new Predicate('P', ['x'], false), new Predicate('Q', ['x'], true)]));
+const cnf = new CnfFormula(new Clause([new Predicate('p', ['X'], false), new Predicate('q', ['X'], true)]));
 resolveCNF(cnf);
 
 
