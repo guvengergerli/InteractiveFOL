@@ -15,13 +15,25 @@ The project emphasizes interactive visualization, making it a valuable education
     cd backend
     ```
 
-2. Start the server:
+2. Install JS Packages:
+
+    ```bash
+    npm i
+    ```
+
+3. Start JS server:
 
     ```bash
     node server.js
     ```
 
-3. Leave the terminal running. The server will be available at:
+4. In another terminal:
+
+    ```bash
+    py server.py
+    ```
+
+4. Leave the terminal running. The server will be available at:
 
     ```
     http://localhost:3000
