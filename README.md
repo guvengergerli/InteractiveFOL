@@ -38,16 +38,59 @@ The project emphasizes interactive visualization, making it a valuable education
 ---
 
 ## **3. Input the Formula**
-1. In the input box labeled **"Put your Formula"**, type the following formulas: 
-    ```
-    implies(every(X, and(P(X), exist(Y, Q(X, Y)))), or(not(R(Z)), and(exist(W, S(W, a)), implies(T(U), and(V(U, X), W(a))))))
-    ```
-    
-    ```
-   and(implies(P(X), Q(X)), and(implies(Q(X), R(X)), and(not(P(X)), not(R(X)))))
-    ```
-**Feel free to define your own formulas. The accepted formula form is defined in /backend/FolToCNF/README.md**
-2. Click the **"Transfer to CNF"** button.
+
+To test the FOL-to-CNF conversion, you can input the following formulas into the provided input box labeled **"Put your Formula"**:
+
+### **Examples for Testing Specific Transformations**
+
+**Remove Free Variables:**
+```
+implies(P(X), Q(Y))
+```
+
+**Make Prenex Normal Form (PNF):**
+```
+implies(every(Y, P(Y)), or(Q(X), every(Z, R(Z))))
+```
+
+**Skolemize:**
+- **Simple Example:**
+```
+every(X, exist(Y, and(P(X), Q(Y, X))))
+```
+- **Complex Example:**
+```
+every(X, every(Z, exist(Y, and(P(X, Z), Q(Y, X, Z)))))
+```
+**Transfer to CNF:**
+```
+implies(P(X), and(Q(X), R(X)))
+```
+
+### **Examples for Comprehensive Testing**
+
+**Example 1:**
+```
+implies(every(X, and(P(X), exist(Y, Q(X, Y)))), or(not(R(Z)), and(exist(W, S(W, a)), implies(T(U), and(V(U, X), W(a))))))
+```
+
+**Example 2:**
+```
+and(implies(P(X), Q(X)), and(implies(Q(X), R(X)), and(not(P(X)), not(R(X)))))
+```
+
+
+
+### **Custom Formulas**
+
+Feel free to define your own formulas. The accepted formula format is defined in `/backend/FolToCNF/README.md`.
+
+### **Instructions**
+
+1. Type one of the above formulas or your own custom formula into the input box.
+2. Click the **"Transfer to CNF"** button to process the formula.
+3. Observe the step-by-step transformations and final CNF result displayed in the output.
+
 
 ---
 
