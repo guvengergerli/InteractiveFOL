@@ -10,14 +10,14 @@ class Predicate {
     }
 
     toString() {
-        const negation = this.isNegated ? '¬' : '';
+        const negation = this.isNegated ? 'not ' : '';
         const argsString = this.args.join(', ');
         return `${negation}${this.name}(${argsString})`;
     }
     toProlog() {
         const negation = this.isNegated ? 'not ' : '';
         const argsString = this.args.join(', ');
-        console.log(`${negation}${this.name}(${argsString})`);
+        // console.log(`${negation}${this.name}(${argsString})`);
         return `${negation}${this.name}(${argsString})`;
     }
     getName() {

@@ -1,6 +1,13 @@
 const Cnf = require('./Cnf');
 const Clause = require('./Clause');
 
+let number_of_heads = 0;
+function getNewHead() {
+  return `head_${number_of_heads++}`;
+}
+  
+
+
 class OrClause {
     constructor(predicates) {
         this.predicates = predicates;
@@ -31,12 +38,12 @@ class MixedClause {
         let positivePredicates = predicates.filter(p => !p.isNegated);
         let negativePredicates = predicates.filter(p => p.isNegated);
         let negatedNegativePredicates = negativePredicates.map(p => p.negate());
-        console.log(positivePredicates);
-        console.log(negativePredicates);
-        console.log(negatedNegativePredicates);
-        console.log(predicates);
+        // console.log(positivePredicates);
+        // console.log(negativePredicates);
+        // console.log(negatedNegativePredicates);
+        // console.log(predicates);
         if (positivePredicates.length == 1) {
-            this.horns.push(new AndClause(positivePredicates[0].getName(), negatedNegativePredicates));
+            this.horns.push(new AndClause(positivePredicates[0], negatedNegativePredicates));
         }
         else if (positivePredicates.length == 0) {
             this.horns.push(new AndClause("", negatedNegativePredicates));
