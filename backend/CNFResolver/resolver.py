@@ -111,7 +111,8 @@ def prepareForResolution(clauses:CT.Clauses) -> FOLKnowledgeBase:
             for sclause in clauses.sats:
                 if sclause.head == clause.head.name:
                     preds.extend(sclause.predicates)
-        preds.extend([CT.Predicate(pred.name, pred.args, False) for pred in clause.predicates])
+            preds.append(clause.head)
+        preds.extend([CT.Predicate(pred.name, pred.args, True) for pred in clause.predicates])
         resulting_clauses.append(preds)
     return FOLKnowledgeBase(resulting_clauses)
 
@@ -161,14 +162,15 @@ def unifyVar(expressions : Tuple[str, str],
     elif exp2 in substition_till_here:
         return unifyVar((exp1, substition_till_here[exp2]), substition_till_here)
     else:
-        substition_till_here[exp1] = exp2
-        return substition_till_here
+        current_substition = substition_till_here.copy()
+        current_substition[exp1] = exp2
+        return current_substition
 
 
 def unify(set_of_pairs_of_clauses: List[Tuple[CT.Predicate,CT.Predicate]],
-        substition_till_here: Dict[str,str]={}) -> Dict[str,str]:
+        substition_till_here: Union[Dict[str,str],None]={}) -> Union[Dict[str,str],None]:
     if len(set_of_pairs_of_clauses) == 0:
-        return {}
+        return substition_till_here
     first_set = set_of_pairs_of_clauses[0]
     if first_set[0] == first_set[1]:
         return unify(set_of_pairs_of_clauses[1:], substition_till_here)
@@ -176,16 +178,54 @@ def unify(set_of_pairs_of_clauses: List[Tuple[CT.Predicate,CT.Predicate]],
         # These predicates have the same name
         for i in range(len(first_set[0].args)):
             substition_till_here = unifyExp((first_set[0].args[i], first_set[1].args[i]), substition_till_here)
-            if (substition_till_here is None):
-                substition_till_here = {} 
-    return unify(set_of_pairs_of_clauses[1:], substition_till_here) | substition_till_here
+        return unify(set_of_pairs_of_clauses[1:], substition_till_here)
+    return None
+
+def substitute(substition:Dict[str,str], predicate:CT.Predicate) -> CT.Predicate:
+    new_args = []
+    for arg in predicate.args:
+        current_sub_for_arg = arg
+        while current_sub_for_arg in substition:
+            current_sub_for_arg = substition[current_sub_for_arg]
+        new_args.append(current_sub_for_arg)
+    return CT.Predicate(predicate.name, new_args, predicate.is_negated)
+
 
 def resolution(kb:FOLKnowledgeBase) -> Satisfaction:
-    satisfaction_up_to_now = Satisfaction.SAT
-    while Satisfaction.SAT == satisfaction_up_to_now:
+    have_inferred = True
+    while have_inferred:
         #this is our regular resolution-refutation procedure for FOL
         #we need to check every unifiable pair of clauses
-        return satisfaction_up_to_now
+        have_inferred = False
+        clauses_to_add = []
+        for i in range(len(kb.clauses)):
+            for j in range(i+1, len(kb.clauses)):
+                # we need to check if the clauses are unifiable
+                # if they are, we need to apply the unification and add the new clause to the knowledge base
+                # if they are not, we need to continue
+                for pred1 in kb.clauses[i]:
+                    for pred2 in kb.clauses[j]:
+                        if pred1.name == pred2.name and pred1.is_negated != pred2.is_negated:
+                            # we need to unify these two predicates
+                            substition = unify([(pred1, pred2)])
+                            if substition is not None:
+                                # we need to apply the unification to the clauses
+                                new_clause = []
+                                for pred in kb.clauses[i]:
+                                    new_pred = substitute(substition, pred)
+                                    if new_pred != pred:
+                                        new_clause.append(new_pred)
+                                for pred in kb.clauses[j]:
+                                    new_pred = substitute(substition, pred)
+                                    if new_pred != pred:
+                                        new_clause.append(new_pred)
+                                if len(new_clause) == 0:
+                                    return Satisfaction.UNSAT
+                                clauses_to_add.append(new_clause)
+                                have_inferred = True
+        for clause in clauses_to_add:
+            kb.clauses.append(clause)
+    return Satisfaction.SAT
 
 
 def backchain(kb: KnowledgeBase, q:CT.Predicate) -> TruthRepresentation:
@@ -197,4 +237,27 @@ def backchain(kb: KnowledgeBase, q:CT.Predicate) -> TruthRepresentation:
 
 def resolve(clauses:CT.Clauses):
     # if the bool is true, the predicate can be evaluated to true
-    pass
+    kb  = prepareForResolution(clauses)
+    print(kb.clauses)
+    return resolution(kb)
+
+horn_clauses = [
+        CT.HornClause(None, [CT.Predicate("b", ["g(X)"], False)]),
+        CT.HornClause(CT.Predicate("b", ["f(Y)"], False), [])
+        ]
+sat_clauses = CT.SatClause("a", [CT.Predicate("c", ["X"], False), CT.Predicate("d", ["X"], False)])
+
+# Come up with a simple unsatisfiable CNF
+# a(X) :- b(X)
+# b(X) :- c(X)
+# c(X) :- d(X)
+# c(X) v d(X)
+#
+fol_sentences = CT.Clauses(horn_clauses, [sat_clauses])
+print(unify([(CT.Predicate("P",["X"],False),CT.Predicate("P",["x"],False))]))
+print(unify([(CT.Predicate("Q",["X"],False),CT.Predicate("P",["x"],False))]))
+print(unify([(CT.Predicate("P",["X", "f(X)"],False),CT.Predicate("P",["x","y"],False))]))
+print(unify([(CT.Predicate("P",["X", "Y", "Z"],False),CT.Predicate("P",["x","Z", "y"],False))]))
+print(unify([(CT.Predicate("P",["X", "Y", "Z"],False),CT.Predicate("P",["x", "Z", "f(x)"],False))]))
+
+print(resolve(fol_sentences))
