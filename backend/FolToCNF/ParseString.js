@@ -10,11 +10,11 @@ function parseFOL(input) {
     let index = 0;
 
     function peek() {
-        return tokens[index];
+        return tokens[index]; // Returns the current token without consuming it.
     }
 
     function consume() {
-        return tokens[index++];
+        return tokens[index++]; // Returns the current token and moves to the next one.
     }
 
     // Parse a term: constant or variable
