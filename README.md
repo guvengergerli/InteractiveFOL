@@ -91,7 +91,10 @@ implies(every(X, and(P(X), exist(Y, Q(X, Y)))), or(not(R(Z)), and(exist(W, S(W, 
 and(implies(P(X), Q(X)), and(implies(Q(X), R(X)), and(not(P(X)), not(R(X)))))
 ```
 
-
+### **Examples for resolution Testing**
+```
+and(implies(P(X), Q(X)), and(P(a), not(Q(a))))
+```
 
 ### **Custom Formulas**
 

@@ -70,6 +70,7 @@ class Server(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps({'message':'body not JSON'}).encode('utf-8'))
             return
+
         returnData = {}
         if self.path == '/':
             returnData = self.resolve()
