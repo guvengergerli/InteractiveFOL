@@ -166,7 +166,7 @@ def unifyVar(expressions : Tuple[str, str],
 
 
 def unify(set_of_pairs_of_clauses: List[Tuple[CT.Predicate,CT.Predicate]],
-        substition_till_here: Union[Dict[str,str],None]={}) -> Union[Dict[str,str],None]:
+        substition_till_here: Dict[str,str]={}) -> Dict[str,str]:
     if len(set_of_pairs_of_clauses) == 0:
         return {}
     first_set = set_of_pairs_of_clauses[0]
@@ -176,12 +176,9 @@ def unify(set_of_pairs_of_clauses: List[Tuple[CT.Predicate,CT.Predicate]],
         # These predicates have the same name
         for i in range(len(first_set[0].args)):
             substition_till_here = unifyExp((first_set[0].args[i], first_set[1].args[i]), substition_till_here)
-        return unify(set_of_pairs_of_clauses[1:], substition_till_here)
-    return None
-
-
-
-
+            if (substition_till_here is None):
+                substition_till_here = {} 
+    return unify(set_of_pairs_of_clauses[1:], substition_till_here) | substition_till_here
 
 def resolution(kb:FOLKnowledgeBase) -> Satisfaction:
     satisfaction_up_to_now = Satisfaction.SAT
